@@ -92,11 +92,11 @@ export default function Contact() {
           <span>Get in Touch</span>
         </div>
         <h2 className="font-display text-3xl sm:text-5xl md:text-6xl font-bold tracking-tight text-white mb-4">
-          Have an Interesting Idea? <br />
-          <span className="text-gradient-champagne">Let's Build Something Extraordinary.</span>
+          Your Next Great Idea <br />
+          <span className="text-gradient-champagne">Starts With a Conversation.</span>
         </h2>
         <p className="text-silver-300/90 text-base sm:text-lg font-light leading-relaxed">
-          Open to full-time roles, software engineering opportunities, collaborative projects, and architectural discussions.
+          Open to full-time engineering roles, high-value consulting contracts, collaborative technical challenges, and visionary software development.
         </p>
       </div>
 
@@ -115,19 +115,33 @@ export default function Contact() {
               Feel free to send proposals, job specifications, or say hello. I typically respond within 24 hours.
             </p>
 
-            <div className="flex items-center justify-between p-3.5 rounded-2xl bg-charcoal-950/80 border border-white/10">
-              <span className="text-xs sm:text-sm font-mono text-silver-200 truncate">
-                {personalInfo.email}
-              </span>
-              <button
-                onClick={handleCopyEmail}
-                onMouseEnter={() => soundManager.playHover()}
-                className="shrink-0 flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-charcoal-800 hover:bg-charcoal-700 text-silver-300 hover:text-white border border-white/10 text-xs font-mono transition-colors cursor-pointer"
-                title="Copy Email"
+            <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between p-3.5 rounded-2xl bg-charcoal-950/80 border border-white/10 gap-2.5">
+              <a
+                href={`mailto:${personalInfo.email}`}
+                className="text-xs sm:text-sm font-mono text-champagne-300 hover:underline truncate flex items-center gap-1.5"
+                title="Open default email application"
               >
-                {copiedEmail ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-                <span>{copiedEmail ? 'Copied' : 'Copy'}</span>
-              </button>
+                <Mail size={14} className="shrink-0" />
+                <span>{personalInfo.email}</span>
+              </a>
+              <div className="flex items-center gap-2 shrink-0">
+                <a
+                  href={`mailto:${personalInfo.email}`}
+                  className="px-3 py-1.5 rounded-xl bg-champagne-300 hover:bg-champagne-200 text-obsidian-950 text-xs font-semibold font-mono transition-colors flex items-center gap-1 cursor-pointer"
+                >
+                  <Send size={12} />
+                  <span>Mail</span>
+                </a>
+                <button
+                  onClick={handleCopyEmail}
+                  onMouseEnter={() => soundManager.playHover()}
+                  className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-charcoal-800 hover:bg-charcoal-700 text-silver-300 hover:text-white border border-white/10 text-xs font-mono transition-colors cursor-pointer"
+                  title="Copy Email to clipboard"
+                >
+                  {copiedEmail ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                  <span>{copiedEmail ? 'Copied' : 'Copy'}</span>
+                </button>
+              </div>
             </div>
           </div>
 

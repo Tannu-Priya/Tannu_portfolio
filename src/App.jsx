@@ -7,12 +7,16 @@ import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
+import AIProjectConsultant from './components/AIProjectConsultant';
+import AIResumeAnalyzer from './components/AIResumeAnalyzer';
 import ClientConversion from './components/ClientConversion';
 import Experience from './components/Experience';
 import LearningRoadmap from './components/LearningRoadmap';
 import ResumeSection from './components/ResumeSection';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
+import AskTannuAI from './components/AskTannuAI';
+import NarratorDock from './components/NarratorDock';
 
 export default function App() {
   const [introFinished, setIntroFinished] = useState(false);
@@ -65,8 +69,14 @@ export default function App() {
         {/* Skills Section */}
         <Skills />
 
-        {/* Featured Projects Section */}
+        {/* Featured Projects with AI Smart Project Finder */}
         <Projects />
+
+        {/* AI Project Architect & Consultant */}
+        <AIProjectConsultant />
+
+        {/* AI Resume & ATS Scorecard Analyzer */}
+        <AIResumeAnalyzer />
 
         {/* Client Conversion Section */}
         <ClientConversion />
@@ -86,6 +96,12 @@ export default function App() {
 
       {/* Footer */}
       <Footer />
+
+      {/* Floating Personal AI & Voice Assistant ("Ask Tannu AI") */}
+      <AskTannuAI />
+
+      {/* Floating AI Voice Narrator Subtitle & Control Dock */}
+      <NarratorDock />
     </div>
   );
 }

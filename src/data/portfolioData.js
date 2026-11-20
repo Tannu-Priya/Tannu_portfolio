@@ -11,7 +11,7 @@ export const personalInfo = {
   ],
   availability: "Open to Opportunities",
   location: "India",
-  email: "tannupriya.dev@gmail.com", // easily customizable placeholder
+  email: "tannupriya4537@gmail.com",
   github: "https://github.com",
   linkedin: "https://linkedin.com",
   resumeUrl: "#resume-section",

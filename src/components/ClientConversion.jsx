@@ -216,19 +216,34 @@ export default function ClientConversion() {
             </div>
 
             {/* Quick Email Box */}
-            <div className="p-4 rounded-2xl bg-obsidian-950/80 border border-white/10 flex items-center justify-between">
+            <div className="p-4 rounded-2xl bg-obsidian-950/80 border border-white/10 flex items-center justify-between gap-3">
               <div>
                 <div className="text-[10px] font-mono uppercase text-silver-500">Direct Inquiries</div>
-                <div className="text-xs font-mono text-silver-200">{personalInfo.email}</div>
+                <a
+                  href={`mailto:${personalInfo.email}`}
+                  className="text-xs font-mono text-champagne-300 hover:underline flex items-center gap-1.5"
+                  title="Open mail app"
+                >
+                  {personalInfo.email}
+                </a>
               </div>
-              <button
-                onClick={handleCopyEmail}
-                onMouseEnter={() => soundManager.playHover()}
-                className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-obsidian-800 hover:bg-obsidian-700 text-silver-300 hover:text-white border border-white/10 text-xs font-mono transition-colors cursor-pointer"
-              >
-                {copiedEmail ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
-                <span>{copiedEmail ? 'Copied' : 'Copy'}</span>
-              </button>
+              <div className="flex items-center gap-2 shrink-0">
+                <a
+                  href={`mailto:${personalInfo.email}`}
+                  className="px-2.5 py-1.5 rounded-xl bg-champagne-300 hover:bg-champagne-200 text-obsidian-950 text-xs font-semibold font-mono transition-colors"
+                >
+                  Mail
+                </a>
+                <button
+                  onClick={handleCopyEmail}
+                  onMouseEnter={() => soundManager.playHover()}
+                  className="flex items-center gap-1 px-2.5 py-1.5 rounded-xl bg-obsidian-800 hover:bg-obsidian-700 text-silver-300 hover:text-white border border-white/10 text-xs font-mono transition-colors cursor-pointer"
+                  title="Copy email to clipboard"
+                >
+                  {copiedEmail ? <Check size={13} className="text-emerald-400" /> : <Copy size={13} />}
+                  <span>{copiedEmail ? 'Copied' : 'Copy'}</span>
+                </button>
+              </div>
             </div>
           </div>
 
