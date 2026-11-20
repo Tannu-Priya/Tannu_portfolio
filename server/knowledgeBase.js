@@ -6,8 +6,8 @@ export const KNOWLEDGE_BASE = {
     status: "Actively Seeking Opportunities / Full-Time Roles / High-Value Contracts",
     location: "India (Open to Global Remote)",
     email: "tannupriya4537@gmail.com",
-    github: "https://github.com",
-    linkedin: "https://linkedin.com",
+    github: "https://github.com/Tannu-Priya",
+    linkedin: "https://www.linkedin.com/in/tannu-priya55/",
     education: {
       degree: "Bachelor of Technology (B.Tech) in Computer Science & Engineering",
       curriculum: "Core Computer Science, Algorithms, Data Structures, DBMS, Operating Systems, Networking, and Software Engineering Principles"

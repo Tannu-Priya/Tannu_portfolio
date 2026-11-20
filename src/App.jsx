@@ -8,11 +8,10 @@ import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
 import AIProjectConsultant from './components/AIProjectConsultant';
-import AIResumeAnalyzer from './components/AIResumeAnalyzer';
 import ClientConversion from './components/ClientConversion';
 import Experience from './components/Experience';
 import LearningRoadmap from './components/LearningRoadmap';
-import ResumeSection from './components/ResumeSection';
+import PersonalCVShowcase from './components/PersonalCVShowcase';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import AskTannuAI from './components/AskTannuAI';
@@ -75,9 +74,6 @@ export default function App() {
         {/* AI Project Architect & Consultant */}
         <AIProjectConsultant />
 
-        {/* AI Resume & ATS Scorecard Analyzer */}
-        <AIResumeAnalyzer />
-
         {/* Client Conversion Section */}
         <ClientConversion />
 
@@ -87,8 +83,8 @@ export default function App() {
         {/* Learning Roadmap Section */}
         <LearningRoadmap />
 
-        {/* Resume Section */}
-        <ResumeSection />
+        {/* Premium Personal CV Showcase */}
+        <PersonalCVShowcase />
 
         {/* Contact Section */}
         <Contact />

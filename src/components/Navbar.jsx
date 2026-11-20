@@ -16,11 +16,10 @@ export default function Navbar() {
     { name: 'Skills', href: '#skills' },
     { name: 'Projects', href: '#projects' },
     { name: 'AI Architect', href: '#ai-consultant' },
-    { name: 'AI Resume', href: '#ai-resume-analyzer' },
     { name: 'Services', href: '#client-conversion' },
     { name: 'Experience', href: '#experience' },
     { name: 'Roadmap', href: '#roadmap' },
-    { name: 'Resume', href: '#resume' },
+    { name: 'Profile & CV', href: '#resume' },
     { name: 'Contact', href: '#contact' },
   ];
 
@@ -28,7 +27,7 @@ export default function Navbar() {
     const handleScroll = () => {
       setScrolled(window.scrollY > 40);
 
-      const sections = ['hero', 'about', 'skills', 'projects', 'ai-consultant', 'ai-resume-analyzer', 'client-conversion', 'experience', 'roadmap', 'resume', 'contact'];
+      const sections = ['hero', 'about', 'skills', 'projects', 'ai-consultant', 'client-conversion', 'experience', 'roadmap', 'resume', 'contact'];
       for (const section of sections) {
         const el = document.getElementById(section);
         if (el) {

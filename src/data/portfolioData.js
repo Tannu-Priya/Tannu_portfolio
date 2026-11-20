@@ -12,9 +12,9 @@ export const personalInfo = {
   availability: "Actively Seeking Opportunities",
   location: "India",
   email: "tannupriya4537@gmail.com",
-  github: "https://github.com",
-  linkedin: "https://linkedin.com",
-  resumeUrl: "#resume-section",
+  github: "https://github.com/Tannu-Priya",
+  linkedin: "https://www.linkedin.com/in/tannu-priya55/",
+  resumeUrl: "/resume/Tannu_Priya_CV.pdf",
   stats: [
     {
       value: "350+",
