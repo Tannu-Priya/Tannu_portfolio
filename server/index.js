@@ -1,13 +1,33 @@
 import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import multer from 'multer';
+import mammoth from 'mammoth';
+import { createRequire } from 'module';
 import { aiService } from './aiService.js';
 import { KNOWLEDGE_BASE } from './knowledgeBase.js';
+
+const require = createRequire(import.meta.url);
+const pdf = require('pdf-parse');
 
 dotenv.config();
 
 const app = express();
 const PORT = process.env.PORT || 5000;
+
+// Multer memory storage configuration (100% in-memory, zero file retention)
+const upload = multer({
+  storage: multer.memoryStorage(),
+  limits: { fileSize: 5 * 1024 * 1024 }, // 5 MB max limit
+  fileFilter: (req, file, cb) => {
+    const allowed = /\.(pdf|docx|txt|md|json)$/i;
+    if (allowed.test(file.originalname)) {
+      cb(null, true);
+    } else {
+      cb(new Error('Invalid file format. Only PDF, DOCX, TXT, and MD files are supported.'));
+    }
+  }
+});
 
 // Middleware
 app.use(cors({ origin: '*' }));
@@ -54,19 +74,79 @@ app.post('/api/project-consultant', async (req, res) => {
   }
 });
 
-// D. AI Resume Analyzer
+// D.1. AI Resume Upload & Dynamic Extraction (PDF, DOCX, TXT)
+app.post('/api/resume/upload-and-analyze', upload.single('resume'), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ error: 'No resume file uploaded.' });
+    }
+
+    const { targetJobDescription } = req.body;
+    const file = req.file;
+    let extractedText = '';
+
+    const fileName = file.originalname.toLowerCase();
+
+    if (fileName.endsWith('.pdf')) {
+      const pdfData = await pdf(file.buffer);
+      extractedText = pdfData.text || '';
+    } else if (fileName.endsWith('.docx')) {
+      const docxData = await mammoth.extractRawText({ buffer: file.buffer });
+      extractedText = docxData.value || '';
+    } else {
+      extractedText = file.buffer.toString('utf-8');
+    }
+
+    if (!extractedText.trim()) {
+      return res.status(400).json({ error: 'Could not extract readable text from the uploaded document.' });
+    }
+
+    const analysis = await aiService.analyzeResume(extractedText, targetJobDescription);
+    res.json({
+      success: true,
+      fileInfo: {
+        name: file.originalname,
+        size: `${Math.round(file.size / 1024)} KB`,
+        type: file.mimetype
+      },
+      extractedTextSnippet: extractedText.slice(0, 300) + '...',
+      analysis
+    });
+  } catch (error) {
+    console.error('File upload analysis error:', error);
+    res.status(500).json({ error: error.message || 'Failed to parse and analyze uploaded resume.' });
+  }
+});
+
+// D.2. AI Resume Text Analyzer (Direct Paste)
 app.post('/api/resume-analyzer', async (req, res) => {
   try {
-    const { resumeText } = req.body;
+    const { resumeText, targetJobDescription } = req.body;
     if (!resumeText || typeof resumeText !== 'string') {
       return res.status(400).json({ error: 'Resume text is required.' });
     }
 
-    const analysis = await aiService.analyzeResume(resumeText);
+    const analysis = await aiService.analyzeResume(resumeText, targetJobDescription);
     res.json(analysis);
   } catch (error) {
     console.error('Resume analyzer error:', error);
     res.status(500).json({ error: error.message || 'Error analyzing resume.' });
+  }
+});
+
+// D.3. Bullet Point Optimizer Assistant
+app.post('/api/resume/optimize-bullet', async (req, res) => {
+  try {
+    const { bulletText } = req.body;
+    if (!bulletText || typeof bulletText !== 'string') {
+      return res.status(400).json({ error: 'Bullet point text is required.' });
+    }
+
+    const optimized = await aiService.optimizeBullet(bulletText);
+    res.json(optimized);
+  } catch (error) {
+    console.error('Bullet optimizer error:', error);
+    res.status(500).json({ error: 'Error optimizing bullet point.' });
   }
 });
 
