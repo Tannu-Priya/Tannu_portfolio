@@ -159,7 +159,7 @@ export default function About() {
                   <span className="w-1.5 h-1.5 rounded-full bg-champagne-300 animate-pulse" />
                   ID: DEV-TP-2026
                 </span>
-                <span className="text-emerald-400 font-semibold">AVAILABLE FOR HIRE</span>
+                <span className="text-emerald-400 font-semibold">ACTIVELY SEEKING OPPORTUNITIES</span>
               </div>
 
               {/* Portrait Placeholder with Animated Monogram */}

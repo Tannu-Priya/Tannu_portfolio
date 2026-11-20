@@ -140,7 +140,7 @@ export default function Navbar() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span>Available for Hire</span>
+              <span>Actively Seeking Opportunities</span>
             </div>
 
             {/* AI Portfolio Voice Narrator Toggle */}
@@ -217,7 +217,7 @@ export default function Navbar() {
           >
             <div className="flex items-center gap-2 pb-3 border-b border-white/10 text-xs font-mono text-emerald-400">
               <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-              <span>Available for Hire & Full-Time Roles</span>
+              <span>Actively Seeking Opportunities</span>
             </div>
 
             <div className="flex flex-col gap-1.5 max-h-[60vh] overflow-y-auto">

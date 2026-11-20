@@ -101,7 +101,7 @@ export class AIService {
 
     if (q.includes('hire') || q.includes('contact') || q.includes('reach out') || q.includes('email') || q.includes('consult') || q.includes('work together') || q.includes('available')) {
       return {
-        reply: `Tannu is currently **Open to Opportunities**—including full-time software engineering roles, full-stack contracts, and custom web development engagements.\n\n• **Direct Email**: tannupriya4537@gmail.com\n• **LinkedIn**: https://linkedin.com\n• **GitHub**: https://github.com\n\nWould you like to use our **AI Project Consultant** to plan an architecture for your idea, or submit an inquiry right now?`,
+        reply: `Tannu is currently **Actively Seeking Opportunities**—including full-time software engineering roles, full-stack contracts, and custom web development engagements.\n\n• **Direct Email**: tannupriya4537@gmail.com\n• **LinkedIn**: https://linkedin.com\n• **GitHub**: https://github.com\n\nWould you like to use our **AI Project Consultant** to plan an architecture for your idea, or submit an inquiry right now?`,
         isLeadPrompt: true,
         suggestedQuestions: [
           "Plan a project using AI Project Consultant",

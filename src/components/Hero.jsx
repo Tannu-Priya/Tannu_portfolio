@@ -69,7 +69,7 @@ export default function Hero() {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
           <span className="text-xs font-mono uppercase tracking-widest text-silver-300">
-            Available for Opportunities
+            Actively Seeking Opportunities
           </span>
           <span className="text-obsidian-700">|</span>
           <span className="text-[11px] font-mono text-champagne-300 tracking-wide">

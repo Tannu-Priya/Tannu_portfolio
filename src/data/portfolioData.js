@@ -9,7 +9,7 @@ export const personalInfo = {
     "With a strong foundation in Computer Science and Engineering (B.Tech CSE), I thrive on turning complex problems into intuitive, scalable, and responsive web applications. Whether architecting real-time systems or refining micro-interactions, I focus on performance, accessibility, and clean architecture.",
     "Constantly exploring modern web technologies, real-time protocols, and AI-assisted interfaces, I aim to create software that feels effortless, reliable, and visually unforgettable."
   ],
-  availability: "Open to Opportunities",
+  availability: "Actively Seeking Opportunities",
   location: "India",
   email: "tannupriya4537@gmail.com",
   github: "https://github.com",

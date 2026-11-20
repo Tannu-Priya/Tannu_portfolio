@@ -3,7 +3,7 @@ export const KNOWLEDGE_BASE = {
     name: "Tannu Priya",
     title: "Full Stack Developer | React.js Developer | Software Engineer",
     tagline: "Turning Ideas Into Exceptional Digital Experiences.",
-    status: "Available for Opportunities / Full-Time Roles / High-Value Contracts",
+    status: "Actively Seeking Opportunities / Full-Time Roles / High-Value Contracts",
     location: "India (Open to Global Remote)",
     email: "tannupriya4537@gmail.com",
     github: "https://github.com",
