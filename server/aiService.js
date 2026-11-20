@@ -203,10 +203,23 @@ export class AIService {
     ];
 
     const detectedTech = [];
+    const escapeRegExp = (str) => str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+
     commonTechDictionary.forEach(t => {
-      const regex = new RegExp(`\\b${t.replace('.', '\\.')}\\b`, 'i');
-      if (regex.test(lower) && !detectedTech.includes(t)) {
-        detectedTech.push(t);
+      if (t === 'c++') {
+        if (/\bc\+\+(\b|[\s,;.]|$)/i.test(lower)) {
+          if (!detectedTech.includes(t)) detectedTech.push(t);
+        }
+      } else if (t === 'c#') {
+        if (/\bc#(\b|[\s,;.]|$)/i.test(lower)) {
+          if (!detectedTech.includes(t)) detectedTech.push(t);
+        }
+      } else {
+        const escaped = escapeRegExp(t);
+        const regex = new RegExp(`\\b${escaped}\\b`, 'i');
+        if (regex.test(lower) && !detectedTech.includes(t)) {
+          detectedTech.push(t);
+        }
       }
     });
 
