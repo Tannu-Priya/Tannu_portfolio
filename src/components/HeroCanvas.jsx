@@ -8,15 +8,15 @@ export default function HeroCanvas() {
     const container = containerRef.current;
     if (!container) return;
 
-    // Scene, Camera, Renderer
+    // Three.js Scene, Camera, Renderer
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(
-      45,
+      42,
       container.clientWidth / container.clientHeight,
       0.1,
       1000
     );
-    camera.position.z = 5.2;
+    camera.position.z = 5.4;
 
     const renderer = new THREE.WebGLRenderer({
       antialias: true,
@@ -26,92 +26,106 @@ export default function HeroCanvas() {
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
     renderer.toneMapping = THREE.ACESFilmicToneMapping;
-    renderer.toneMappingExposure = 1.2;
+    renderer.toneMappingExposure = 1.25;
     container.appendChild(renderer.domElement);
 
-    // 3D Core Object: Metallic Geometric Sphere with displaced geometry
-    const geometry = new THREE.IcosahedronGeometry(1.65, 24);
-    
-    // Save original position attribute for procedural wave displacement
+    // Group for combined rotational physics
+    const group = new THREE.Group();
+    scene.add(group);
+
+    // 1. Core Metallic Chrome Sculpture (Liquid Displaced Icosahedron)
+    const geometry = new THREE.IcosahedronGeometry(1.6, 32);
     const originalPositions = geometry.attributes.position.clone();
 
-    // Metallic luxury material
-    const material = new THREE.MeshPhysicalMaterial({
-      color: 0x1a1d26,
-      emissive: 0x05060a,
-      roughness: 0.18,
-      metalness: 0.92,
-      clearcoat: 0.8,
-      clearcoatRoughness: 0.1,
+    const chromeMaterial = new THREE.MeshPhysicalMaterial({
+      color: 0x141620,
+      emissive: 0x06070c,
+      roughness: 0.12,
+      metalness: 0.96,
+      clearcoat: 1.0,
+      clearcoatRoughness: 0.08,
       reflectivity: 1.0,
       wireframe: false,
     });
 
-    const mesh = new THREE.Mesh(geometry, material);
-    scene.add(mesh);
+    const mesh = new THREE.Mesh(geometry, chromeMaterial);
+    group.add(mesh);
 
-    // Ethereal wireframe outer cage
-    const cageGeometry = new THREE.IcosahedronGeometry(2.0, 3);
-    const cageMaterial = new THREE.MeshBasicMaterial({
+    // 2. Gyroscopic Orbital Platinum Ring 1
+    const ring1Geo = new THREE.TorusGeometry(2.3, 0.018, 16, 100);
+    const ringMaterial1 = new THREE.MeshStandardMaterial({
       color: 0xeed7a1,
-      wireframe: true,
-      transparent: true,
-      opacity: 0.12,
-    });
-    const cageMesh = new THREE.Mesh(cageGeometry, cageMaterial);
-    scene.add(cageMesh);
-
-    // Floating Stardust Particles
-    const particleCount = 280;
-    const particleGeometry = new THREE.BufferGeometry();
-    const positions = new Float32Array(particleCount * 3);
-    const scales = new Float32Array(particleCount);
-
-    for (let i = 0; i < particleCount * 3; i += 3) {
-      positions[i] = (Math.random() - 0.5) * 14;
-      positions[i + 1] = (Math.random() - 0.5) * 14;
-      positions[i + 2] = (Math.random() - 0.5) * 12;
-      scales[i / 3] = Math.random() * 0.04 + 0.01;
-    }
-
-    particleGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-
-    const particleMaterial = new THREE.PointsMaterial({
-      color: 0xe2e8f0,
-      size: 0.035,
+      roughness: 0.2,
+      metalness: 0.9,
       transparent: true,
       opacity: 0.45,
+    });
+    const ring1 = new THREE.Mesh(ring1Geo, ringMaterial1);
+    ring1.rotation.x = Math.PI / 3;
+    group.add(ring1);
+
+    // 3. Gyroscopic Orbital Silver Ring 2
+    const ring2Geo = new THREE.TorusGeometry(2.6, 0.015, 16, 100);
+    const ringMaterial2 = new THREE.MeshStandardMaterial({
+      color: 0xcbd5e1,
+      roughness: 0.3,
+      metalness: 0.8,
+      transparent: true,
+      opacity: 0.3,
+    });
+    const ring2 = new THREE.Mesh(ring2Geo, ringMaterial2);
+    ring2.rotation.y = Math.PI / 4;
+    group.add(ring2);
+
+    // 4. Stardust Particles Cloud
+    const particleCount = 260;
+    const particleGeo = new THREE.BufferGeometry();
+    const posArray = new Float32Array(particleCount * 3);
+
+    for (let i = 0; i < particleCount * 3; i += 3) {
+      posArray[i] = (Math.random() - 0.5) * 15;
+      posArray[i + 1] = (Math.random() - 0.5) * 15;
+      posArray[i + 2] = (Math.random() - 0.5) * 12;
+    }
+
+    particleGeo.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+    const particleMat = new THREE.PointsMaterial({
+      color: 0xf1f5f9,
+      size: 0.03,
+      transparent: true,
+      opacity: 0.4,
       blending: THREE.AdditiveBlending,
     });
 
-    const particles = new THREE.Points(particleGeometry, particleMaterial);
+    const particles = new THREE.Points(particleGeo, particleMat);
     scene.add(particles);
 
-    // Dynamic Cinematic Lighting
-    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    // 5. Cinematic Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.7);
     scene.add(ambientLight);
 
     // Warm champagne key light
-    const keyLight = new THREE.DirectionalLight(0xeed7a1, 3.5);
+    const keyLight = new THREE.DirectionalLight(0xeed7a1, 3.8);
     keyLight.position.set(4, 5, 4);
     scene.add(keyLight);
 
-    // Cool metallic silver fill light
-    const fillLight = new THREE.DirectionalLight(0xa5b4fc, 2.5);
-    fillLight.position.set(-5, -2, 2);
+    // Platinum fill light
+    const fillLight = new THREE.DirectionalLight(0xa5b4fc, 2.4);
+    fillLight.position.set(-5, -2, 3);
     scene.add(fillLight);
 
     // Atmospheric rim light
-    const rimLight = new THREE.PointLight(0x38bdf8, 4.0, 20);
+    const rimLight = new THREE.PointLight(0x38bdf8, 3.5, 20);
     rimLight.position.set(0, -4, -3);
     scene.add(rimLight);
 
-    // Interactive mouse cursor follow light
-    const pointerLight = new THREE.PointLight(0xf7ecd4, 2.8, 15);
-    pointerLight.position.set(0, 0, 3.5);
-    scene.add(pointerLight);
+    // Pointer-following interactive light
+    const mouseLight = new THREE.PointLight(0xf9f0db, 2.5, 12);
+    mouseLight.position.set(0, 0, 3.5);
+    scene.add(mouseLight);
 
-    // Mouse tracking with smooth lerp
+    // Mouse Tracking with smooth dampening
     let mouseX = 0;
     let mouseY = 0;
     let targetX = 0;
@@ -121,13 +135,12 @@ export default function HeroCanvas() {
       const rect = container.getBoundingClientRect();
       const x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
       const y = -(((e.clientY - rect.top) / rect.height) * 2 - 1);
-      targetX = x * 0.9;
-      targetY = y * 0.9;
+      targetX = x * 0.8;
+      targetY = y * 0.8;
     };
 
     window.addEventListener('mousemove', handleMouseMove);
 
-    // Resize handler
     const handleResize = () => {
       if (!container) return;
       const width = container.clientWidth;
@@ -147,27 +160,27 @@ export default function HeroCanvas() {
       animationFrameId = requestAnimationFrame(animate);
       const elapsedTime = clock.getElapsedTime();
 
-      // Smooth mouse interpolation
+      // Smooth mouse lerp
       mouseX += (targetX - mouseX) * 0.05;
       mouseY += (targetY - mouseY) * 0.05;
 
-      // Rotate primary mesh
-      mesh.rotation.y = elapsedTime * 0.22 + mouseX * 0.8;
-      mesh.rotation.x = elapsedTime * 0.15 + -mouseY * 0.8;
+      // Group rotation
+      group.rotation.y = elapsedTime * 0.15 + mouseX * 0.7;
+      group.rotation.x = elapsedTime * 0.1 + -mouseY * 0.7;
 
-      // Rotate outer wireframe cage oppositely
-      cageMesh.rotation.y = -elapsedTime * 0.12 + mouseX * 0.4;
-      cageMesh.rotation.z = elapsedTime * 0.08;
+      // Independent ring rotations
+      ring1.rotation.z = elapsedTime * 0.25;
+      ring2.rotation.x = -elapsedTime * 0.18;
 
-      // Rotate particles
-      particles.rotation.y = elapsedTime * 0.04;
-      particles.rotation.x = -elapsedTime * 0.02;
+      // Particles ambient drift
+      particles.rotation.y = elapsedTime * 0.03;
+      particles.rotation.x = -elapsedTime * 0.015;
 
-      // Move interactive light
-      pointerLight.position.x = mouseX * 3.5;
-      pointerLight.position.y = mouseY * 3.5;
+      // Move cursor light
+      mouseLight.position.x = mouseX * 4;
+      mouseLight.position.y = mouseY * 4;
 
-      // Procedural surface wave displacement on icosahedron
+      // Procedural surface wave displacement on core mesh
       const posAttr = geometry.attributes.position;
       const origPos = originalPositions.array;
       const pos = posAttr.array;
@@ -182,11 +195,11 @@ export default function HeroCanvas() {
         const oy = origPos[iy];
         const oz = origPos[iz];
 
-        const length = Math.sqrt(ox * ox + oy * oy + oz * oz);
-        const wave = Math.sin(ox * 2.5 + elapsedTime * 1.8) *
-                     Math.cos(oy * 2.5 + elapsedTime * 1.5) * 0.12;
+        const len = Math.sqrt(ox * ox + oy * oy + oz * oz);
+        const wave = Math.sin(ox * 2.8 + elapsedTime * 1.6) *
+                     Math.cos(oy * 2.8 + elapsedTime * 1.4) * 0.1;
 
-        const factor = (length + wave) / length;
+        const factor = (len + wave) / len;
         pos[ix] = ox * factor;
         pos[iy] = oy * factor;
         pos[iz] = oz * factor;
@@ -207,11 +220,13 @@ export default function HeroCanvas() {
         container.removeChild(renderer.domElement);
       }
       geometry.dispose();
-      material.dispose();
-      cageGeometry.dispose();
-      cageMaterial.dispose();
-      particleGeometry.dispose();
-      particleMaterial.dispose();
+      chromeMaterial.dispose();
+      ring1Geo.dispose();
+      ringMaterial1.dispose();
+      ring2Geo.dispose();
+      ringMaterial2.dispose();
+      particleGeo.dispose();
+      particleMat.dispose();
       renderer.dispose();
     };
   }, []);

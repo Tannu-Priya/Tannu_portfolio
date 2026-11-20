@@ -1,11 +1,13 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Lenis from 'lenis';
+import CinematicIntro from './components/CinematicIntro';
 import Navbar from './components/Navbar';
 import CustomCursor from './components/CustomCursor';
 import Hero from './components/Hero';
 import About from './components/About';
 import Skills from './components/Skills';
 import Projects from './components/Projects';
+import ClientConversion from './components/ClientConversion';
 import Experience from './components/Experience';
 import LearningRoadmap from './components/LearningRoadmap';
 import ResumeSection from './components/ResumeSection';
@@ -13,6 +15,8 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 
 export default function App() {
+  const [introFinished, setIntroFinished] = useState(false);
+
   useEffect(() => {
     // Initialize Lenis Smooth Scrolling for luxury feel
     const lenis = new Lenis({
@@ -38,7 +42,12 @@ export default function App() {
   }, []);
 
   return (
-    <div className="relative min-h-screen bg-charcoal-950 text-silver-200 selection:bg-champagne-300 selection:text-charcoal-950 font-sans">
+    <div className="relative min-h-screen bg-[#030305] text-[#cbd5e1] selection:bg-[#eed7a1] selection:text-[#030305] font-sans">
+      {/* Cinematic Intro Preloader */}
+      {!introFinished && (
+        <CinematicIntro onComplete={() => setIntroFinished(true)} />
+      )}
+
       {/* Custom Magnetic Cursor */}
       <CustomCursor />
 
@@ -58,6 +67,9 @@ export default function App() {
 
         {/* Featured Projects Section */}
         <Projects />
+
+        {/* Client Conversion Section */}
+        <ClientConversion />
 
         {/* Experience Section */}
         <Experience />

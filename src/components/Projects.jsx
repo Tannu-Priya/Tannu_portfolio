@@ -9,45 +9,53 @@ import {
   Activity, 
   TrendingUp, 
   ShieldCheck, 
-  Cpu 
+  Cpu,
+  Play
 } from 'lucide-react';
-import { GithubIcon } from './Icons';
 import { projectsData } from '../data/portfolioData';
 import CaseStudyModal from './CaseStudyModal';
+import ProjectDemoModal from './ProjectDemoModal';
+import { GithubIcon } from './Icons';
 import { soundManager } from '../utils/sound';
 
 export default function Projects() {
   const [activeProject, setActiveProject] = useState(null);
-  const [modalOpen, setModalOpen] = useState(false);
+  const [caseStudyOpen, setCaseStudyOpen] = useState(false);
+  const [demoOpen, setDemoOpen] = useState(false);
 
   const handleOpenCaseStudy = (project) => {
     soundManager.playClick();
     setActiveProject(project);
-    setModalOpen(true);
+    setCaseStudyOpen(true);
   };
 
-  // Custom visual background accents per project
+  const handleOpenDemo = (project) => {
+    soundManager.playClick();
+    setActiveProject(project);
+    setDemoOpen(true);
+  };
+
   const projectAesthetics = {
     medishare: {
-      gradient: 'from-emerald-950/40 via-charcoal-900 to-charcoal-950',
+      gradient: 'from-emerald-950/40 via-obsidian-900 to-obsidian-950',
       badgeColor: 'border-emerald-500/30 text-emerald-300 bg-emerald-500/10',
       accentGlow: 'bg-emerald-500/10',
       icon: Activity,
     },
     aurelle: {
-      gradient: 'from-amber-950/30 via-charcoal-900 to-charcoal-950',
+      gradient: 'from-amber-950/30 via-obsidian-900 to-obsidian-950',
       badgeColor: 'border-champagne-400/30 text-champagne-300 bg-champagne-400/10',
       accentGlow: 'bg-champagne-400/10',
       icon: Sparkles,
     },
     realtimebid: {
-      gradient: 'from-blue-950/40 via-charcoal-900 to-charcoal-950',
+      gradient: 'from-blue-950/40 via-obsidian-900 to-obsidian-950',
       badgeColor: 'border-blue-400/30 text-blue-300 bg-blue-500/10',
       accentGlow: 'bg-blue-500/10',
       icon: TrendingUp,
     },
     'disaster-relief': {
-      gradient: 'from-rose-950/30 via-charcoal-900 to-charcoal-950',
+      gradient: 'from-rose-950/30 via-obsidian-900 to-obsidian-950',
       badgeColor: 'border-rose-400/30 text-rose-300 bg-rose-500/10',
       accentGlow: 'bg-rose-500/10',
       icon: Cpu,
@@ -57,14 +65,14 @@ export default function Projects() {
   return (
     <section id="projects" className="relative py-28 px-6 sm:px-8 max-w-7xl mx-auto">
       {/* Background ambient lighting */}
-      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-champagne-400/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/4 -right-20 w-96 h-96 bg-champagne-400/5 rounded-full blur-[160px] pointer-events-none" />
 
       {/* Section Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-charcoal-900 border border-white/10 text-xs font-mono text-champagne-300 uppercase tracking-widest mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-obsidian-900 border border-white/10 text-xs font-mono text-champagne-300 uppercase tracking-widest mb-3">
             <FolderGit2 size={12} />
-            <span>Featured Case Studies</span>
+            <span>Cinematic Project Launches</span>
           </div>
           <h2 className="font-display text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight text-white">
             Engineering Rigor & <br />
@@ -73,7 +81,7 @@ export default function Projects() {
         </div>
 
         <p className="text-silver-400 text-sm max-w-md font-light leading-relaxed">
-          Deep-dive into production systems built around algorithmic optimization, real-time architectures, and high-fashion editorial interfaces.
+          Deep-dive into production systems built around algorithmic optimization, real-time architectures, and high-fashion editorial interfaces. Launch live simulations or read the full case studies.
         </p>
       </div>
 
@@ -82,7 +90,6 @@ export default function Projects() {
         {projectsData.map((project, index) => {
           const aesthetic = projectAesthetics[project.id] || projectAesthetics.medishare;
           const ProjectIcon = aesthetic.icon;
-          const isEven = index % 2 === 0;
 
           return (
             <motion.div
@@ -104,7 +111,7 @@ export default function Projects() {
                   <div>
                     {/* Category & Status Bar */}
                     <div className="flex flex-wrap items-center gap-2.5 mb-4">
-                      <span className="text-[11px] font-mono tracking-wider uppercase text-silver-400 px-3 py-1 rounded-full bg-charcoal-950/60 border border-white/10">
+                      <span className="text-[11px] font-mono tracking-wider uppercase text-silver-400 px-3 py-1 rounded-full bg-obsidian-950/60 border border-white/10">
                         {project.category}
                       </span>
                       <span className={`text-[11px] font-mono px-3 py-1 rounded-full border ${aesthetic.badgeColor}`}>
@@ -132,7 +139,7 @@ export default function Projects() {
                       {project.techStack.map((tech, idx) => (
                         <span
                           key={idx}
-                          className="px-2.5 py-1 rounded-md bg-charcoal-900/80 border border-white/5 text-[11px] font-mono text-silver-300"
+                          className="px-2.5 py-1 rounded-md bg-obsidian-900/80 border border-white/5 text-[11px] font-mono text-silver-300"
                         >
                           {tech}
                         </span>
@@ -140,36 +147,50 @@ export default function Projects() {
                     </div>
                   </div>
 
-                  {/* Action Buttons */}
+                  {/* Action Buttons: Case Study + Live Demo Simulator + Links */}
                   <div className="flex flex-wrap items-center gap-3 pt-4 border-t border-white/[0.08]">
+                    {/* Explore Case Study */}
                     <button
                       onClick={() => handleOpenCaseStudy(project)}
                       onMouseEnter={() => soundManager.playHover()}
                       data-cursor="CASE"
-                      className="shimmer-btn px-5 py-2.5 rounded-xl bg-gradient-to-r from-silver-100 to-champagne-200 text-charcoal-950 text-xs font-semibold tracking-wide flex items-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
+                      className="shimmer-btn px-5 py-2.5 rounded-xl bg-gradient-to-r from-silver-100 to-champagne-200 text-obsidian-950 text-xs font-semibold tracking-wide flex items-center gap-2 shadow-md hover:shadow-lg transition-all cursor-pointer"
                     >
                       <span>Explore Case Study</span>
                       <ArrowUpRight size={14} />
                     </button>
 
+                    {/* Launch Live Simulation */}
+                    <button
+                      onClick={() => handleOpenDemo(project)}
+                      onMouseEnter={() => soundManager.playHover()}
+                      data-cursor="DEMO"
+                      className="px-4 py-2.5 rounded-xl bg-obsidian-850 hover:bg-obsidian-800 text-champagne-300 hover:text-white border border-champagne-400/30 text-xs font-medium flex items-center gap-2 transition-colors cursor-pointer"
+                    >
+                      <Play size={13} className="fill-champagne-300" />
+                      <span>Live Simulation</span>
+                    </button>
+
+                    {/* Code Link */}
                     <a
                       href={project.githubUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2.5 rounded-xl bg-charcoal-900/80 hover:bg-charcoal-800 text-silver-300 hover:text-white border border-white/10 text-xs font-medium flex items-center gap-2 transition-colors"
+                      className="px-3.5 py-2.5 rounded-xl bg-obsidian-900/80 hover:bg-obsidian-800 text-silver-300 hover:text-white border border-white/10 text-xs font-medium flex items-center gap-1.5 transition-colors"
                     >
                       <GithubIcon size={14} />
                       <span>Code</span>
                     </a>
 
+                    {/* Live URL */}
                     <a
                       href={project.liveUrl}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="px-4 py-2.5 rounded-xl bg-charcoal-900/80 hover:bg-charcoal-800 text-silver-300 hover:text-white border border-white/10 text-xs font-medium flex items-center gap-2 transition-colors"
+                      className="px-3.5 py-2.5 rounded-xl bg-obsidian-900/80 hover:bg-obsidian-800 text-silver-300 hover:text-white border border-white/10 text-xs font-medium flex items-center gap-1.5 transition-colors"
                     >
                       <ExternalLink size={14} />
-                      <span>Live Demo</span>
+                      <span>Demo</span>
                     </a>
                   </div>
                 </div>
@@ -177,8 +198,8 @@ export default function Projects() {
                 {/* Right Column: Architectural Visual Mockup Panel */}
                 <div className="lg:col-span-5 w-full">
                   <div
-                    onClick={() => handleOpenCaseStudy(project)}
-                    className="relative aspect-video lg:aspect-square rounded-2xl bg-charcoal-950/80 border border-white/10 p-5 flex flex-col justify-between overflow-hidden cursor-pointer group/preview shadow-inner"
+                    onClick={() => handleOpenDemo(project)}
+                    className="relative aspect-video lg:aspect-square rounded-2xl bg-obsidian-950/80 border border-white/10 p-5 flex flex-col justify-between overflow-hidden cursor-pointer group/preview shadow-inner"
                   >
                     {/* Top Bar inside mockup */}
                     <div className="flex items-center justify-between border-b border-white/10 pb-3">
@@ -188,34 +209,37 @@ export default function Projects() {
                         <div className="w-2.5 h-2.5 rounded-full bg-emerald-500/80" />
                       </div>
                       <div className="text-[10px] font-mono text-silver-500">
-                        sys::{project.id}.manifest
+                        sim::{project.id}.manifest
                       </div>
                     </div>
 
                     {/* Center Graphic */}
                     <div className="flex flex-col items-center justify-center text-center p-4">
-                      <div className="w-16 h-16 rounded-2xl bg-charcoal-900 border border-white/15 flex items-center justify-center mb-3 group-hover/preview:scale-110 group-hover/preview:border-champagne-400/50 transition-all shadow-xl">
+                      <div className="w-16 h-16 rounded-2xl bg-obsidian-900 border border-white/15 flex items-center justify-center mb-3 group-hover/preview:scale-110 group-hover/preview:border-champagne-400/50 transition-all shadow-xl">
                         <ProjectIcon size={28} className="text-champagne-300" />
                       </div>
                       <div className="font-display font-bold text-white text-base mb-1">
                         {project.title}
                       </div>
                       <div className="text-xs font-mono text-silver-400">
-                        {project.featuredMetricLabel}: <span className="text-champagne-300">{project.featuredMetric}</span>
+                        {project.featuredMetricLabel}: <span className="text-champagne-300 font-semibold">{project.featuredMetric}</span>
                       </div>
                     </div>
 
                     {/* Bottom Status Feed */}
-                    <div className="rounded-lg bg-charcoal-900/90 border border-white/5 p-3 flex items-center justify-between text-[11px] font-mono text-silver-400">
-                      <span>VERIFIED METRIC</span>
-                      <span className="text-emerald-400">OPTIMIZED</span>
+                    <div className="rounded-lg bg-obsidian-900/90 border border-white/5 p-3 flex items-center justify-between text-[11px] font-mono text-silver-400">
+                      <span>INTERACTIVE DEMO READY</span>
+                      <span className="text-emerald-400 flex items-center gap-1">
+                        <Play size={10} className="fill-emerald-400" />
+                        CLICK TO SIMULATE
+                      </span>
                     </div>
 
                     {/* Hover Overlay Hint */}
-                    <div className="absolute inset-0 bg-charcoal-950/80 backdrop-blur-xs flex items-center justify-center opacity-0 group-hover/preview:opacity-100 transition-opacity">
-                      <span className="px-4 py-2 rounded-xl bg-champagne-300 text-charcoal-950 text-xs font-semibold font-mono tracking-wide flex items-center gap-1.5 shadow-xl">
-                        <span>CLICK TO EXPAND CASE STUDY</span>
-                        <ArrowUpRight size={14} />
+                    <div className="absolute inset-0 bg-obsidian-950/80 backdrop-blur-xs flex items-center justify-center opacity-0 group-hover/preview:opacity-100 transition-opacity">
+                      <span className="px-4 py-2 rounded-xl bg-champagne-300 text-obsidian-950 text-xs font-semibold font-mono tracking-wide flex items-center gap-1.5 shadow-xl">
+                        <span>LAUNCH LIVE SIMULATION</span>
+                        <Play size={12} className="fill-obsidian-950" />
                       </span>
                     </div>
                   </div>
@@ -226,11 +250,18 @@ export default function Projects() {
         })}
       </div>
 
-      {/* Case Study Modal */}
+      {/* Case Study Full-Screen Modal */}
       <CaseStudyModal
         project={activeProject}
-        isOpen={modalOpen}
-        onClose={() => setModalOpen(false)}
+        isOpen={caseStudyOpen}
+        onClose={() => setCaseStudyOpen(false)}
+      />
+
+      {/* Interactive Project Simulation Modal */}
+      <ProjectDemoModal
+        project={activeProject}
+        isOpen={demoOpen}
+        onClose={() => setDemoOpen(false)}
       />
     </section>
   );
